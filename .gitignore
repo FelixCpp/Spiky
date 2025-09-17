@@ -34,6 +34,9 @@ bld/
 [Ll]og/
 [Ll]ogs/
 
+# Build folder
+build/
+
 # Build results on 'Bin' directories
 **/[Bb]in/*
 # Uncomment if you have tasks that rely on *.refresh files to move binaries
@@ -416,3 +419,9 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+# Visual Studio Solution files
+*.sln
+*.vcxproj
+*.vcxproj.user
+*.vcxproj.filters
