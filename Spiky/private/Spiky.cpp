@@ -15,8 +15,8 @@ using namespace System;
 namespace Spiky
 {
 	LibraryData s_Data;
-	std::unique_ptr<MonitorProvider> s_MonitorProvider = std::make_unique<MonitorProviderCache>(std::make_unique<Win32MonitorProvider>());
-	std::shared_ptr<Internal::LoggingStartupTask> s_LoggingTask = std::make_shared<Internal::LoggingStartupTask>();
+	std::shared_ptr<MonitorProvider> s_MonitorProvider = std::make_unique<MonitorProviderCache>(std::make_unique<Win32MonitorProvider>());
+	auto s_LoggingTask = std::make_shared<Internal::LoggingStartupTask>();
 
 	int Launch(const std::function<std::unique_ptr<Sketch>()>& factory)
 	{
@@ -24,10 +24,19 @@ namespace Spiky
 		startup.AddStartupTask(s_LoggingTask);
 		startup.AddStartupTask(std::make_shared<Internal::ConfigureHeapStartupTask>());
 		startup.AddStartupTask(std::make_shared<Internal::InitCOMStartupTask>());
+		startup.AddStartupTask(std::make_shared<Internal::WindowStartupTask>(s_Data.Window, s_MonitorProvider));
 
-		startup.Run([]
+		startup.Run([&]
 		{
-			std::this_thread::sleep_for(std::chrono::seconds(1));
+			s_Data.Window->SetVisible(true);
+
+			bool running = true;
+			while (running)
+			{
+				s_Data.Window->HandleEvents(
+					[&running](const WindowEvent::Closed&) { running = false; }
+				);
+			}
 		});
 
 		return 0;

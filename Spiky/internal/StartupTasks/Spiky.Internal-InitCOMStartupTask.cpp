@@ -15,7 +15,7 @@ namespace Spiky::Internal
 {
 	Startup::StartupTask::Continuation InitCOMStartupTask::Setup()
 	{
-		if (true or FAILED(CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)))
+		if (FAILED(CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)))
 		{
 			Error("CoInitializeEx failed");
 			return Abort;

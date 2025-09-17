@@ -27,7 +27,7 @@ namespace Spiky
 {
 	struct LibraryData
 	{
-		std::unique_ptr<Window> Window;
+		std::shared_ptr<Window> Window;
 		std::unique_ptr<Sketch> Sketch;
 	};
 }
@@ -36,4 +36,4 @@ module :private;
 
 extern Spiky::LibraryData s_Data;
 extern std::shared_ptr<Spiky::Internal::LoggingStartupTask> s_LoggingTask;
-extern std::unique_ptr<System::MonitorProvider> s_MonitorProvider;
+extern std::shared_ptr<System::MonitorProvider> s_MonitorProvider;

@@ -60,7 +60,7 @@ namespace Spiky
 	{
 	public:
 
-		explicit Window(int width, int height, std::string_view title);
+		explicit Window(int windowLeft, int windowTop, int windowWidth, int windowHeght, std::string_view title);
 		~Window();
 
 		void SetVisible(bool visible);

@@ -8,12 +8,8 @@
 
 module Spiky.Internal;
 
-import System.Monitor;
-
 namespace Spiky
 {
-	extern std::unique_ptr<System::MonitorProvider> s_MonitorProvider;
-
 	[[nodiscard]] std::wstring StringToWide(const std::string_view source)
 	{
 		const int requiredLength = MultiByteToWideChar(CP_UTF8, 0, source.data(), static_cast<int>(source.length()), nullptr, 0);
@@ -38,45 +34,19 @@ namespace Spiky
 		return string;
 	}
 
-	Window::Window(const int width, const int height, const std::string_view title)
+	Window::Window(const int windowLeft, const int windowTop, const int windowWidth, const int windowHeght, const std::string_view title)
 	{
 		constexpr DWORD dwStyle = WS_OVERLAPPEDWINDOW;
 		constexpr DWORD dwExStyle = WS_EX_OVERLAPPEDWINDOW;
 
-		RECT windowArea = { .left = 0l, .top = 0l, .right = static_cast<LONG>(width), .bottom = static_cast<LONG>(height) };
+		RECT windowArea = { .left = 0l, .top = 0l, .right = static_cast<LONG>(windowWidth), .bottom = static_cast<LONG>(windowHeght) };
 		Expect(
 			AdjustWindowRectEx(&windowArea, dwStyle, FALSE, dwExStyle),
 			[] { return "Couldn't adjust window rectangle."; }
 		);
 
-		const int windowWidth = static_cast<int>(windowArea.right - windowArea.left);
-		const int windowHeight = static_cast<int>(windowArea.bottom - windowArea.top);
-
-		const Math::Int2 windowPosition = [windowWidth, windowHeight] -> Math::Int2
-		{
-			const std::optional<System::Monitor> monitor = s_MonitorProvider->GetPrimaryMonitor();
-
-			if (not monitor.has_value())
-			{
-				return { CW_USEDEFAULT, CW_USEDEFAULT };
-			}
-
-			const int32_t windowLeft = monitor->WorkArea.Left + (monitor->WorkArea.Width - windowWidth) / 2;
-			const int32_t windowTop = monitor->WorkArea.Top + (monitor->WorkArea.Height - windowHeight) / 2;
-
-			return { windowLeft, windowTop };
-		}();
-						
-		const HMONITOR monitor = CheckNotNull(
-			MonitorFromPoint({}, MONITOR_DEFAULTTONEAREST),
-			[] { return "Couldn't retrieve handle to the primary monitor."; }
-		);
-
-		MONITORINFO monitorInfo = {.cbSize = sizeof(MONITORINFO)};
-		Expect(
-			GetMonitorInfoW(monitor, &monitorInfo), 
-			[] { return "Couldn't retrieve information about the primary monitor."; }
-		);
+		const int realWindowWidth = static_cast<int>(windowArea.right - windowArea.left);
+		const int realWindowHeight = static_cast<int>(windowArea.bottom - windowArea.top);
 
 		const WNDCLASSEXW wcex = {
 			.cbSize = sizeof(WNDCLASSEX),
@@ -96,7 +66,7 @@ namespace Spiky
 		Expect(RegisterClassEx(&wcex), [] { return "Couldn't register window class."; });
 
 		m_WindowHandle = CheckNotNull(
-			CreateWindowExW(dwExStyle, wcex.lpszClassName, StringToWide(title).c_str(), dwStyle, windowPosition.X, windowPosition.Y, windowWidth, windowHeight, nullptr, nullptr, wcex.hInstance, this),
+			CreateWindowExW(dwExStyle, wcex.lpszClassName, StringToWide(title).c_str(), dwStyle, windowLeft, windowTop, realWindowWidth, realWindowHeight, nullptr, nullptr, wcex.hInstance, this),
 			[] { return "Couldn't create window."; }
 		);
 	}

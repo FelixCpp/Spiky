@@ -9,7 +9,7 @@ module Spiky;
 namespace Spiky
 {
 	extern LibraryData s_Data;
-	extern std::unique_ptr<System::MonitorProvider> s_MonitorProvider;
+	extern std::shared_ptr<System::MonitorProvider> s_MonitorProvider;
 
 	void ShowWindow()
 	{

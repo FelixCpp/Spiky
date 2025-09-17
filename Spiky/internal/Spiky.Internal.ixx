@@ -4,6 +4,7 @@ export module Spiky.Internal;
 export import :ConfigureHeapStartupTask;
 export import :InitCOMStartupTask;
 export import :LoggingStartupTask;
+export import :WindowStartupTask;
 
 export import :Guard;
 export import :Logging;
