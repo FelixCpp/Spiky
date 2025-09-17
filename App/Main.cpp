@@ -10,6 +10,7 @@ struct SpikesGame : Spiky::Sketch
 		Spiky::SetWindowSize(300, 600, true);
 		Spiky::SetWindowSize(400, 500, true);
 		Spiky::SetWindowSize(200, 300, true);
+				
 		return true;
 	}
 

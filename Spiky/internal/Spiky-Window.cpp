@@ -4,8 +4,11 @@
 
 #include <string>
 #include <optional>
+#include <memory>
 
-module Spiky;
+module Spiky.Internal;
+
+import System.Monitor;
 
 namespace Spiky
 {

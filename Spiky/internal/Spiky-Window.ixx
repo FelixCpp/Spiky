@@ -13,7 +13,7 @@ module;
 #include <string>
 #include <optional>
 
-export module Spiky:Window;
+export module Spiky.Internal:Window;
 
 import Math;
 
@@ -25,7 +25,7 @@ namespace Spiky
 		using Visitors::operator()...;
 	};
 
-	class WindowEvent
+	export class WindowEvent
 	{
 	public:
 
@@ -56,7 +56,7 @@ namespace Spiky
 
 	};
 
-	class Window
+	export class Window
 	{
 	public:
 

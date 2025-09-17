@@ -5,11 +5,11 @@
 #include <stdexcept>
 #include <format>
 
-export module Spiky:Guard;
+export module Spiky.Internal:Guard;
 
 import :Logging;
 
-namespace Spiky
+export namespace Spiky
 {
 	inline void Expect(const bool expression, const std::function<std::string()>& lazyMessage)
 	{

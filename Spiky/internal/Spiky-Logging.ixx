@@ -9,11 +9,11 @@ module;
 #include <chrono>
 //#include <stacktrace>
 
-export module Spiky:Logging;
+export module Spiky.Internal:Logging;
 
 import Logging;
 
-namespace Spiky
+export namespace Spiky
 {
 	void Log(
 		LogLevel level,

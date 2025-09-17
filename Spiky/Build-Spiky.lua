@@ -6,13 +6,16 @@ project("Spiky")
     objdir("%{wks.location}/build/bin-int/" .. OutputDir .. "/%{prj.name}")
 
     files({
-        "public/**.ixx",
+        "internal/**.ixx",
+        "internal/**.cpp",
         "private/**.ixx",
-        "private/**.cpp"
+        "private/**.cpp",
+        "public/**.ixx",
     })
 
     links({
         "Logging",
+        "LaunchScope",
         "Math",
         "DPI",
         "Monitor",

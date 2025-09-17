@@ -17,6 +17,9 @@ workspace("Spike")
         include("System/DPI/Build-DPI.lua")
         include("System/Monitor/Build-Monitor.lua")
 
+    group("Graphics")
+        include("Graphics/LaunchScope/Build-LaunchScope.lua")
+
     group("Utilities")
         include("Logging/Build-Logging.lua")
         include("Math/Build-Math.lua")

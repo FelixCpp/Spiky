@@ -4,7 +4,7 @@
 #include <string>
 #include <chrono>
 
-module Spiky;
+module Spiky.Internal;
 
 namespace Spiky
 {

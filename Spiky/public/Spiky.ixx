@@ -20,10 +20,7 @@ namespace Spiky
 	export int Launch(const std::function<std::unique_ptr<Sketch>()>& factory);
 }
 
-import :Guard;
-import :Logging;
-import :Window;
-
+import Spiky.Internal;
 import System.Monitor;
 
 namespace Spiky
@@ -38,5 +35,4 @@ namespace Spiky
 module :private;
 
 extern Spiky::LibraryData s_Data;
-extern Logger s_Logger;
 extern std::unique_ptr<System::MonitorProvider> s_MonitorProvider;

@@ -2,6 +2,7 @@
 
 #include <string_view>
 #include <string>
+#include <optional>
 
 module Spiky;
 
