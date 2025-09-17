@@ -1,6 +1,6 @@
 module;
 
-#include <string_view>
+#include <string>
 
 export module System.Monitor:Monitor;
 
@@ -10,7 +10,7 @@ namespace System
 {
 	export struct Monitor
 	{
-		std::wstring_view Name;
+		std::string Name;
 		Math::IntBoundary WorkArea;
 		Math::IntBoundary Area;
 		bool IsPrimary;

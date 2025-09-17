@@ -1,5 +1,8 @@
 export module Spiky.Internal;
 
+// Monitor
+export import :MonitorProviderCache;
+
 // Startup Tasks
 export import :ConfigureHeapStartupTask;
 export import :InitCOMStartupTask;

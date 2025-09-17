@@ -9,8 +9,6 @@ project("Monitor")
 		"public/Monitor.ixx",
 		"public/Monitor-Monitor.ixx",
 		"public/Monitor-MonitorProvider.ixx",
-		"public/Monitor-MonitorProviderCache.ixx",
-		"private/Monitor-MonitorProviderCache.cpp",
 	})
 
 	links({

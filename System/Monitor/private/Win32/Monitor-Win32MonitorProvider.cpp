@@ -33,9 +33,9 @@ namespace System
 			return std::nullopt;
 		}
 
-		MONITORINFOEXW monitorInfo = {};
-		monitorInfo.cbSize = sizeof(MONITORINFOEXW);
-		if (not GetMonitorInfoW(primaryMonitor, &monitorInfo))
+		MONITORINFOEXA monitorInfo = {};
+		monitorInfo.cbSize = sizeof(MONITORINFOEXA);
+		if (not GetMonitorInfoA(primaryMonitor, &monitorInfo))
 		{
 			return std::nullopt;
 		}
@@ -43,7 +43,8 @@ namespace System
 		return Monitor{
 			.Name = monitorInfo.szDevice,
 			.WorkArea = RectToBoundary(monitorInfo.rcWork),
-			.Area = RectToBoundary(monitorInfo.rcMonitor)
+			.Area = RectToBoundary(monitorInfo.rcMonitor),
+			.IsPrimary = (monitorInfo.dwFlags & MONITORINFOF_PRIMARY) != 0
 		};
 	}
 
@@ -58,9 +59,9 @@ namespace System
 			{
 				auto* monitors = std::bit_cast<std::vector<Monitor>*>(dwData);
 
-				MONITORINFOEXW monitorInfo = {};
-				monitorInfo.cbSize = sizeof(MONITORINFOEXW);
-				if (not GetMonitorInfoW(hMonitor, &monitorInfo))
+				MONITORINFOEXA monitorInfo = {};
+				monitorInfo.cbSize = sizeof(MONITORINFOEXA);
+				if (not GetMonitorInfoA(hMonitor, &monitorInfo))
 				{
 					return TRUE; // Continue enumeration
 				}
@@ -68,7 +69,8 @@ namespace System
 				monitors->emplace_back(Monitor{
 					.Name = monitorInfo.szDevice,
 					.WorkArea = RectToBoundary(monitorInfo.rcWork),
-					.Area = RectToBoundary(monitorInfo.rcMonitor)
+					.Area = RectToBoundary(monitorInfo.rcMonitor),
+					.IsPrimary = (monitorInfo.dwFlags & MONITORINFOF_PRIMARY) != 0
 				});
 
 				return TRUE; // Continue enumeration

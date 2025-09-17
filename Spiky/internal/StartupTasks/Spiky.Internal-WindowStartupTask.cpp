@@ -25,6 +25,7 @@ namespace Spiky::Internal
 
 		constexpr int windowWidth = 1280;
 		constexpr int windowHeight = 720;
+		m_MonitorProvider->GetAvailableMonitors();
 
 		// Try to center the window on the primary monitor on startup
 		if (const auto primaryMonitor = m_MonitorProvider->GetPrimaryMonitor())

@@ -10,12 +10,13 @@ import System.Monitor;
 
 import Startup;
 
+
 using namespace System;
 
 namespace Spiky
 {
 	LibraryData s_Data;
-	std::shared_ptr<MonitorProvider> s_MonitorProvider = std::make_unique<MonitorProviderCache>(std::make_unique<Win32MonitorProvider>());
+	std::shared_ptr<MonitorProvider> s_MonitorProvider = std::make_unique<Internal::MonitorProviderCache>(std::make_unique<Win32MonitorProvider>());
 	auto s_LoggingTask = std::make_shared<Internal::LoggingStartupTask>();
 
 	int Launch(const std::function<std::unique_ptr<Sketch>()>& factory)
