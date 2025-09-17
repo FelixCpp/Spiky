@@ -1,4 +1,9 @@
-﻿module;
+﻿// Project Name : Spiky
+// File Name    : Spiky.Internal-InitCOMStartupTask.cpp
+// Author       : Felix Busch
+// Created Date : 2025/09/17
+
+module;
 
 #include <Windows.h>
 
@@ -8,9 +13,9 @@ import :Logging;
 
 namespace Spiky::Internal
 {
-	Graphics::StartupTask::Continuation InitCOMStartupTask::Setup()
+	Startup::StartupTask::Continuation InitCOMStartupTask::Setup()
 	{
-		if (FAILED(CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)))
+		if (true or FAILED(CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED | COINIT_DISABLE_OLE1DDE)))
 		{
 			Error("CoInitializeEx failed");
 			return Abort;

@@ -1,3 +1,8 @@
+// Project Name : Spiky
+// File Name    : Spiky.Internal-ConfigureHeapStartupTask.cpp
+// Author       : Felix Busch
+// Created Date : 2025/09/17
+
 module;
 
 #include <Windows.h>
@@ -9,7 +14,7 @@ import :Logging;
 
 namespace Spiky::Internal
 {
-	Graphics::StartupTask::Continuation ConfigureHeapStartupTask::Setup()
+	Startup::StartupTask::Continuation ConfigureHeapStartupTask::Setup()
 	{
 		if (not HeapSetInformation(nullptr, HeapEnableTerminationOnCorruption, nullptr, 0))
 		{

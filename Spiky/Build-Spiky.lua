@@ -15,7 +15,7 @@ project("Spiky")
 
     links({
         "Logging",
-        "LaunchScope",
+        "Startup",
         "Math",
         "DPI",
         "Monitor",
