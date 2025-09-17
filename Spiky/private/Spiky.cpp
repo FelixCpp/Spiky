@@ -6,7 +6,6 @@
 
 module Spiky;
 
-import System.DPI;
 import System.Monitor;
 
 import Startup;
@@ -32,6 +31,7 @@ namespace Spiky
 		startup.AddStartupTask(Library.LoggingChannel->GetStartupTask());
 		startup.AddStartupTask(std::make_shared<ConfigureHeapStartupTask>());
 		startup.AddStartupTask(std::make_shared<InitCOMStartupTask>());
+		startup.AddStartupTask(std::make_shared<ConfigureDPIStartupTask>());
 		startup.AddStartupTask(std::make_shared<WindowStartupTask>(Library.Window, Library.MonitorProvider));
 		
 		startup.Run([&]
@@ -48,9 +48,25 @@ namespace Spiky
 			bool running = true;
 			while (running)
 			{
-				Library.Window->HandleEvents(
-					[&running](const WindowEvent::Closed&) { running = false; }
-				);
+				while (const auto event = Library.Window->PollEvent())
+				{
+					const bool forwardToUser = event->Visit(
+						[&running](const WindowEvent::Closed&)
+						{
+							running = false;
+							return true;
+						},
+						[](const auto&)
+						{
+							return true;
+						}
+					);
+
+					if (forwardToUser)
+					{
+						Library.Sketch->Event(*event);
+					}
+				}
 
 				Library.Sketch->Draw();
 			}

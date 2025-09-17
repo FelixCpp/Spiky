@@ -29,8 +29,8 @@ namespace Math
 {
 	template <typename T>
 	constexpr Value2<T>::Value2()
-		: X({})
-		, Y({})
+		: X(T{})
+		, Y(T{})
 	{
 	}
 

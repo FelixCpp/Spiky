@@ -61,5 +61,8 @@ namespace Spiky
 		HWND m_WindowHandle;
 		std::queue<WindowEvent> m_EventQueue;
 
+		Math::Uint2 m_LastSize;
+		bool m_IsResizing = false;
+
 	};
 }

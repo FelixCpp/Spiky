@@ -24,10 +24,15 @@ export namespace Spiky
 	public:
 
 		struct Closed {};
+		struct Resized
+		{
+			uint32_t Width;
+			uint32_t Height;
+		};
 
 	public:
 
-		using EventType = std::variant<Closed>;
+		using EventType = std::variant<Closed, Resized>;
 
 	public:
 

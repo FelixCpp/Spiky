@@ -7,7 +7,7 @@ export module Spiky:ConfigureHeapStartupTask;
 
 import Startup;
 
-export namespace Spiky
+namespace Spiky
 {
 	struct ConfigureHeapStartupTask : Startup::StartupTask
 	{

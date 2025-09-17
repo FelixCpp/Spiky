@@ -17,7 +17,6 @@ project("Spiky")
         "Logging",
         "Startup",
         "Math",
-        "DPI",
         "Monitor",
     })
 

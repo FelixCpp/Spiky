@@ -14,9 +14,7 @@ workspace("Spike")
     OutputDir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
     group("System")
-        include("System/DPI/Build-DPI.lua")
         include("System/Monitor/Build-Monitor.lua")
-
 
     group("Utilities")
         include("Logging/Build-Logging.lua")

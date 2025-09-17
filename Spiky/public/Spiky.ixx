@@ -71,6 +71,7 @@ export namespace Spiky
 ///////////////////////////////////////////////////////////////////////////
 
 import :MonitorProviderCache;
+import :ConfigureDPIStartupTask;
 import :ConfigureHeapStartupTask;
 import :InitCOMStartupTask;
 import :LoggingStartupTask;

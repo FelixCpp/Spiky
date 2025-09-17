@@ -188,6 +188,32 @@ namespace Spiky
 				m_EventQueue.emplace(WindowEvent::Closed{});
 			} break;
 
+			case WM_ENTERSIZEMOVE:
+			{
+				m_IsResizing = true;
+			} break;
+
+			case WM_SIZE:
+			{
+				if (wParam != SIZE_MINIMIZED and not m_IsResizing and m_LastSize != GetSize())
+				{
+					m_LastSize = GetSize();
+					m_EventQueue.emplace(WindowEvent::Resized{ .Width = m_LastSize.X, .Height = m_LastSize.Y });
+				}
+			} break;
+
+			case WM_EXITSIZEMOVE:
+			{
+				m_IsResizing = false;
+
+				// Ignore cases where the size didn't actually change (window move without resize)
+				if (m_LastSize != GetSize())
+				{
+					m_LastSize = GetSize();
+					m_EventQueue.emplace(WindowEvent::Resized{ .Width = m_LastSize.X, .Height = m_LastSize.Y });
+				}
+			} break;
+
 			default:
 				break;
 		}

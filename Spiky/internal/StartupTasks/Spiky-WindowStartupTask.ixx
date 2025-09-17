@@ -14,7 +14,7 @@ import System.Monitor;
 
 import :Window;
 
-export namespace Spiky
+namespace Spiky
 {
 	class WindowStartupTask : public Startup::StartupTask
 	{

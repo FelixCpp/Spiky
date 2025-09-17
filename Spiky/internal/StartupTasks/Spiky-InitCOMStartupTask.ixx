@@ -7,7 +7,7 @@ export module Spiky:InitCOMStartupTask;
 
 import Startup;
 
-export namespace Spiky
+namespace Spiky
 {
 	struct InitCOMStartupTask : Startup::StartupTask
 	{

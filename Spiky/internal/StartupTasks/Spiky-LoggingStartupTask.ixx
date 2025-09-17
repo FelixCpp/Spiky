@@ -16,7 +16,7 @@ export module Spiky:LoggingStartupTask;
 import Startup;
 import Logging;
 
-export namespace Spiky
+namespace Spiky
 {
 	class LoggingStartupTask : public Startup::StartupTask
 	{

@@ -27,7 +27,6 @@ namespace Spiky
 
 	void ConfigureHeapStartupTask::Teardown()
 	{
-		Info("Uninitializing HeapSetInformation");
 	}
 
 }
