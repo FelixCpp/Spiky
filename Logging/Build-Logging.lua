@@ -6,8 +6,8 @@ project("Logging")
 	objdir("%{wks.location}/build/bin-int/" .. OutputDir .. "/%{prj.name}")
 
 	files({
-		"modules/**.ixx",
-		"implementation/**.cpp"
+		"public/**.ixx",
+		"private/**.cpp"
 	})
 
 	filter("configurations:Debug")

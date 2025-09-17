@@ -7,8 +7,8 @@ project("Spiky")
 
     files({
         "public/**.ixx",
-        "src/**.ixx",
-        "src/**.cpp"
+        "private/**.ixx",
+        "private/**.cpp"
     })
 
     links({
