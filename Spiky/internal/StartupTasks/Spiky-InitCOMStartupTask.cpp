@@ -1,5 +1,5 @@
 ﻿// Project Name : Spiky
-// File Name    : Spiky.Internal-InitCOMStartupTask.cpp
+// File Name    : Spiky-InitCOMStartupTask.cpp
 // Author       : Felix Busch
 // Created Date : 2025/09/17
 
@@ -7,11 +7,9 @@ module;
 
 #include <Windows.h>
 
-module Spiky.Internal;
+module Spiky;
 
-import :Logging;
-
-namespace Spiky::Internal
+namespace Spiky
 {
 	Startup::StartupTask::Continuation InitCOMStartupTask::Setup()
 	{

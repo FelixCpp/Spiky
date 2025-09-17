@@ -4,10 +4,14 @@
 #include <mutex>
 #include <vector>
 
-module Spiky.Internal;
+module Spiky;
 
-namespace Spiky::Internal
+namespace Spiky
 {
+	LoggingStartupTask::LoggingStartupTask(std::unique_ptr<Logger> logger) :
+		m_Logger(std::move(logger))
+	{}
+
 	void LoggingStartupTask::Submit(const LogEntry& entry)
 	{
 		{
@@ -22,12 +26,6 @@ namespace Spiky::Internal
 	{
 		m_LoggingThread = std::jthread([this](const std::stop_token& token)
 		{
-			const Logger logger(
-				std::make_unique<DevelopmentLogFilter>(),
-				std::make_unique<FmtLogPrinter>(),
-				std::make_unique<ConsoleLogOutput>()
-			);
-
 			while (not token.stop_requested() or not m_SubmittedEntries.empty())
 			{
 				std::vector<LogEntry> batch;
@@ -50,7 +48,7 @@ namespace Spiky::Internal
 				
 				for (const auto& entry : batch)
 				{
-					logger.Log(entry.Level, entry.Message, entry.Timestamp/*, entry.Stacktrace*/);
+					m_Logger->Log(entry.Level, entry.Message, entry.Timestamp);
 				}
 			}
 		});

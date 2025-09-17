@@ -4,18 +4,16 @@
 #include <optional>
 #include <format>
 
-module Spiky.Internal;
+module Spiky;
 
 import System.Monitor;
 
-import :Logging;
-
-namespace Spiky::Internal
+namespace Spiky
 {
 	WindowStartupTask::WindowStartupTask(
-		std::shared_ptr<Window>& window,
+		std::unique_ptr<Window>& window,
 		std::shared_ptr<System::MonitorProvider> monitorProvider
-	): m_Window(window), m_MonitorProvider(std::move(monitorProvider))
+	) : m_Window(window), m_MonitorProvider(std::move(monitorProvider))
 	{
 	}
 
@@ -25,7 +23,6 @@ namespace Spiky::Internal
 
 		constexpr int windowWidth = 1280;
 		constexpr int windowHeight = 720;
-		m_MonitorProvider->GetAvailableMonitors();
 
 		// Try to center the window on the primary monitor on startup
 		if (const auto primaryMonitor = m_MonitorProvider->GetPrimaryMonitor())
@@ -35,7 +32,7 @@ namespace Spiky::Internal
 			Info(std::format("Initial Window Position: {}, {}", windowLeft, windowTop));
 		}
 
-		m_Window = std::make_shared<Window>(windowLeft, windowTop, windowWidth, windowHeight, "Spiky Application");
+		m_Window = std::make_unique<Window>(windowLeft, windowTop, windowWidth, windowHeight, "Spiky Application");
 		Info("Window created successfully");
 		return Continue;
 	}

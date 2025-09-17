@@ -1,5 +1,5 @@
 // Project Name : Spiky
-// File Name    : Spiky.Internal-ConfigureHeapStartupTask.cpp
+// File Name    : Spiky-ConfigureHeapStartupTask.cpp
 // Author       : Felix Busch
 // Created Date : 2025/09/17
 
@@ -8,11 +8,9 @@ module;
 #include <Windows.h>
 #include <format>
 
-module Spiky.Internal;
+module Spiky;
 
-import :Logging;
-
-namespace Spiky::Internal
+namespace Spiky
 {
 	Startup::StartupTask::Continuation ConfigureHeapStartupTask::Setup()
 	{

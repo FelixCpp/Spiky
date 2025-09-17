@@ -1,13 +1,13 @@
 ﻿// Project Name : Spiky
-// File Name    : Spiky.Internal-InitCOMStartupTask.ixx
+// File Name    : Spiky-InitCOMStartupTask.ixx
 // Author       : Felix Busch
 // Created Date : 2025/09/17
 
-export module Spiky.Internal:InitCOMStartupTask;
+export module Spiky:InitCOMStartupTask;
 
 import Startup;
 
-export namespace Spiky::Internal
+export namespace Spiky
 {
 	struct InitCOMStartupTask : Startup::StartupTask
 	{

@@ -9,5 +9,6 @@ project("Premake")
 
 	postbuildmessage("Regenerating project files with Premake ...")
 	postbuildcommands({
-		"\"%{prj.location}bin/premake5\" %{ACTION} --file=\"%{wks.location}Build.lua\" --os=\"windows\""
+		-- "%{wks.location}\\Scripts\\Clean-VS2022",
+		-- "%{wks.location}\\Scripts\\Build-VS2022"
 	})

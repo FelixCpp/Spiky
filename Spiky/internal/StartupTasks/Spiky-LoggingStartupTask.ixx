@@ -1,5 +1,5 @@
 ﻿// Project Name : Spiky
-// File Name    : Spiky.Internal-LoggingStartupTask.ixx
+// File Name    : Spiky-LoggingStartupTask.ixx
 // Author       : Felix Busch
 // Created Date : 2025/09/17
 
@@ -9,14 +9,14 @@ module;
 #include <queue>
 #include <mutex>
 #include <condition_variable>
+#include <chrono>
 
-export module Spiky.Internal:LoggingStartupTask;
+export module Spiky:LoggingStartupTask;
 
 import Startup;
+import Logging;
 
-import :Logging;
-
-export namespace Spiky::Internal
+export namespace Spiky
 {
 	class LoggingStartupTask : public Startup::StartupTask
 	{
@@ -27,11 +27,11 @@ export namespace Spiky::Internal
 			LogLevel Level;
 			std::string Message;
 			std::chrono::system_clock::time_point Timestamp;
-			//std::stacktrace Stacktrace;
 		};
 
 	public:
 
+		explicit LoggingStartupTask(std::unique_ptr<Logger> logger);
 		void Submit(const LogEntry& entry);
 		Continuation Setup() override;
 		void Teardown() override;
@@ -43,6 +43,7 @@ export namespace Spiky::Internal
 		std::condition_variable m_SubmitCondition;
 
 		std::queue<LogEntry> m_SubmittedEntries;
+		std::unique_ptr<Logger> m_Logger;
 
 	};
 }

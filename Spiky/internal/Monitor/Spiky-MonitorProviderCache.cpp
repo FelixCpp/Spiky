@@ -3,11 +3,9 @@
 #include <optional>
 #include <format>
 
-module Spiky.Internal;
+module Spiky;
 
-import :Logging;
-
-namespace Spiky::Internal
+namespace Spiky
 {
 
 	MonitorProviderCache::MonitorProviderCache(std::shared_ptr<MonitorProvider> provider)

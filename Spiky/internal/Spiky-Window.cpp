@@ -6,18 +6,18 @@
 #include <optional>
 #include <memory>
 
-module Spiky.Internal;
+module Spiky;
 
 namespace Spiky
 {
 	[[nodiscard]] std::wstring StringToWide(const std::string_view source)
 	{
 		const int requiredLength = MultiByteToWideChar(CP_UTF8, 0, source.data(), static_cast<int>(source.length()), nullptr, 0);
-		Expect(requiredLength > 0, [] { return "Couldn't convert string to wide string."; });
+		Check(requiredLength > 0, [] { return "Couldn't convert string to wide string."; });
 
 		std::wstring wideString(requiredLength, L'\0');
 		const int convertedLength = MultiByteToWideChar(CP_UTF8, 0, source.data(), static_cast<int>(source.length()), wideString.data(), requiredLength);
-		Expect(convertedLength == requiredLength, [] { return "Couldn't convert string to wide string."; });
+		Check(convertedLength == requiredLength, [] { return "Couldn't convert string to wide string."; });
 
 		return wideString;
 	}
@@ -25,11 +25,11 @@ namespace Spiky
 	[[nodiscard]] std::string WideToString(const std::wstring_view source)
 	{
 		const int requiredLength = WideCharToMultiByte(CP_UTF8, 0, source.data(), static_cast<int>(source.length()), nullptr, 0, nullptr, nullptr);
-		Expect(requiredLength > 0, [] { return "Couldn't convert wide string to string."; });
+		Check(requiredLength > 0, [] { return "Couldn't convert wide string to string."; });
 
 		std::string string(requiredLength, '\0');
 		const int convertedLength = WideCharToMultiByte(CP_UTF8, 0, source.data(), static_cast<int>(source.length()), string.data(), requiredLength, nullptr, nullptr);
-		Expect(convertedLength == requiredLength, [] { return "Couldn't convert wide string to string."; });
+		Check(convertedLength == requiredLength, [] { return "Couldn't convert wide string to string."; });
 
 		return string;
 	}
@@ -40,10 +40,7 @@ namespace Spiky
 		constexpr DWORD dwExStyle = WS_EX_OVERLAPPEDWINDOW;
 
 		RECT windowArea = { .left = 0l, .top = 0l, .right = static_cast<LONG>(windowWidth), .bottom = static_cast<LONG>(windowHeght) };
-		Expect(
-			AdjustWindowRectEx(&windowArea, dwStyle, FALSE, dwExStyle),
-			[] { return "Couldn't adjust window rectangle."; }
-		);
+		Check(AdjustWindowRectEx(&windowArea, dwStyle, FALSE, dwExStyle), [] { return "Couldn't adjust window rectangle."; });
 
 		const int realWindowWidth = static_cast<int>(windowArea.right - windowArea.left);
 		const int realWindowHeight = static_cast<int>(windowArea.bottom - windowArea.top);
@@ -63,7 +60,7 @@ namespace Spiky
 			.hIconSm = LoadIcon(nullptr, IDI_APPLICATION)
 		};
 
-		Expect(RegisterClassEx(&wcex), [] { return "Couldn't register window class."; });
+		Check(RegisterClassEx(&wcex), [] { return "Couldn't register window class."; });
 
 		m_WindowHandle = CheckNotNull(
 			CreateWindowExW(dwExStyle, wcex.lpszClassName, StringToWide(title).c_str(), dwStyle, windowLeft, windowTop, realWindowWidth, realWindowHeight, nullptr, nullptr, wcex.hInstance, this),
@@ -92,10 +89,7 @@ namespace Spiky
 		const DWORD dwExStyle = GetWindowLongW(m_WindowHandle, GWL_EXSTYLE);
 
 		RECT windowArea = { .left = 0l, .top = 0l, .right = static_cast<LONG>(width), .bottom = static_cast<LONG>(height) };
-		Expect(
-			AdjustWindowRectEx(&windowArea, dwStyle, FALSE, dwExStyle),
-			[] { return "Couldn't adjust window rectangle."; }
-		);
+		Check(AdjustWindowRectEx(&windowArea, dwStyle, FALSE, dwExStyle), [] { return "Couldn't adjust window rectangle."; });
 
 		const int windowWidth = static_cast<int>(windowArea.right - windowArea.left);
 		const int windowHeight = static_cast<int>(windowArea.bottom - windowArea.top);
@@ -106,10 +100,7 @@ namespace Spiky
 	Math::Uint2 Window::GetSize() const
 	{
 		RECT windowArea = {};
-		Expect(
-			GetClientRect(m_WindowHandle, &windowArea),
-			[] { return "Couldn't retrieve window size"; }
-		);
+		Check(GetClientRect(m_WindowHandle, &windowArea), [] { return "Couldn't retrieve window size"; });
 
 		const uint32_t width = static_cast<uint32_t>(windowArea.right - windowArea.left);
 		const uint32_t height = static_cast<uint32_t>(windowArea.bottom - windowArea.top);
@@ -125,10 +116,7 @@ namespace Spiky
 	Math::Int2 Window::GetPosition() const
 	{
 		RECT windowBoundary = {};
-		Expect(
-			GetWindowRect(m_WindowHandle, &windowBoundary),
-			[] { return "Couldn't retrieve window position."; }
-		);
+		Check(GetWindowRect(m_WindowHandle, &windowBoundary), [] { return "Couldn't retrieve window position."; }	);
 
 		const auto x = static_cast<int32_t>(windowBoundary.left);
 		const auto y = static_cast<int32_t>(windowBoundary.top);
@@ -143,11 +131,11 @@ namespace Spiky
 	std::string Window::GetTitle() const
 	{
 		const int length = GetWindowTextLengthW(m_WindowHandle);
-		Expect(length >= 0, [] { return "Couldn't retrieve window title length."; });
+		Check(length >= 0, [] { return "Couldn't retrieve window title length."; });
 
 		std::wstring wideTitle(length, L'\0');
 		const int retrievedLength = GetWindowTextW(m_WindowHandle, wideTitle.data(), length + 1);
-		Expect(retrievedLength == length, [] { return "Couldn't retrieve window title."; });
+		Check(retrievedLength == length, [] { return "Couldn't retrieve window title."; });
 
 		return WideToString(wideTitle);
 	}

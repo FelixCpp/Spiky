@@ -1,5 +1,5 @@
 ﻿// Project Name : Spiky
-// File Name    : Spiky.Internal-MonitorProviderCache.ixx
+// File Name    : Spiky-MonitorProviderCache.ixx
 // Author       : Felix Busch
 // Created Date : 2025/09/17
 
@@ -9,11 +9,11 @@ module;
 #include <vector>
 #include <memory>
 
-export module Spiky.Internal:MonitorProviderCache;
+export module Spiky:MonitorProviderCache;
 
 import System.Monitor;
 
-export namespace Spiky::Internal
+export namespace Spiky
 {
 	class MonitorProviderCache final : public System::MonitorProvider
 	{

@@ -1,13 +1,13 @@
 ﻿// Project Name : Spiky
-// File Name    : Spiky.Internal-ConfigureHeapStartupTask.ixx
+// File Name    : Spiky-ConfigureHeapStartupTask.ixx
 // Author       : Felix Busch
 // Created Date : 2025/09/17
 
-export module Spiky.Internal:ConfigureHeapStartupTask;
+export module Spiky:ConfigureHeapStartupTask;
 
 import Startup;
 
-export namespace Spiky::Internal
+export namespace Spiky
 {
 	struct ConfigureHeapStartupTask : Startup::StartupTask
 	{

@@ -1,7 +1,7 @@
 project("DPI")
 	kind("StaticLib")
 	language("C++")
-	cppdialect("C++20")
+	cppdialect("C++23")
 	targetdir("%{wks.location}/build/bin/" .. OutputDir .. "/%{prj.name}")
 	objdir("%{wks.location}/build/bin-int/" .. OutputDir .. "/%{prj.name}")
 	
