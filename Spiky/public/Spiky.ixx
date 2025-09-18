@@ -63,6 +63,15 @@ export namespace Spiky
 	std::string GetWindowTitle();									  //!< Get the window title
 }
 
+/// <summary>
+/// Graphics and rendering
+/// </summary>
+export namespace Spiky
+{
+	void Background(int32_t red, int32_t green, int32_t blue, int32_t alpha = 255);
+
+}
+
 //////////////////////////////// - Non-API - //////////////////////////////
 ///																		///
 ///	This Section contains type definitions and implementations that are	///
@@ -70,15 +79,34 @@ export namespace Spiky
 ///																		///
 ///////////////////////////////////////////////////////////////////////////
 
-import :MonitorProviderCache;
-import :ConfigureDPIStartupTask;
-import :ConfigureHeapStartupTask;
+// COM
 import :InitCOMStartupTask;
-import :LoggingStartupTask;
-import :WindowStartupTask;
+
+// Device Independent Resources
+import :ConfigureDeviceIndependentResourcesStartupTask;
+import :DeviceIndependentResources;
+
+// Device Resources
+import :ConfigureDeviceResourcesStartupTask;
+import :DeviceResources;
+import :DeviceResourcesScaler;
+
+// DPI
+import :ConfigureDPIStartupTask;
+
+// Logging
 import :LoggingChannel;
-import :Preconditions;
+import :LoggingStartupTask;
+
+// Monitor
+import :MonitorProviderCache;
+
+// Window
 import :Window;
+import :ConfigureHeapStartupTask;
+
+import :WindowStartupTask;
+import :Preconditions;
 
 struct SpikyLibrary
 {
@@ -86,8 +114,12 @@ struct SpikyLibrary
 	std::unique_ptr<Spiky::Sketch>				Sketch;				//!< The sketch provided by the user
 	std::unique_ptr<Spiky::LoggingChannel>		LoggingChannel;		//!< The logging channel to use
 	std::shared_ptr<System::MonitorProvider>	MonitorProvider;	//!< The monitor provider to use
+
+	// Graphics
+	Spiky::DeviceIndependentResources			IndependentResources;	//!< Device independent graphics resources
+	Spiky::DeviceResources						DeviceResources;		//!< Device dependent graphics resources
 };
 
 module :private;
 
-inline SpikyLibrary Library;
+SpikyLibrary Library;

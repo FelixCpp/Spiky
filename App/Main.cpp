@@ -30,7 +30,7 @@ struct SpikesGame : Spiky::Sketch
 
 	void Draw() override
 	{
-		
+		Spiky::Background(40, 50, 220);
 	}
 
 	void Destroy() override

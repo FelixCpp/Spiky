@@ -25,6 +25,7 @@ project("Spiky")
 
     filter("system:windows")
         systemversion("latest")
+        links({ "d2d1", "d3d11", "dwrite", "windowscodecs" })
 
     filter("configurations:Debug")
         runtime("Debug")

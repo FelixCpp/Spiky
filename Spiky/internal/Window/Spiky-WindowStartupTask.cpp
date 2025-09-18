@@ -32,7 +32,15 @@ namespace Spiky
 			Info(std::format("Initial Window Position: {}, {}", windowLeft, windowTop));
 		}
 
-		m_Window = std::make_unique<Window>(windowLeft, windowTop, windowWidth, windowHeight, "Spiky Application");
+		try
+		{
+			m_Window = std::make_unique<Window>(windowLeft, windowTop, windowWidth, windowHeight, "Spiky Application");
+		} catch (const std::exception& exception)
+		{
+			Error(std::format("Failed to create window: {}", exception.what()));
+			return Abort;
+		}
+
 		Info("Window created successfully");
 		return Continue;
 	}

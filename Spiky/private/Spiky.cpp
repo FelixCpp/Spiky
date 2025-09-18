@@ -4,6 +4,8 @@
 #include <string>
 #include <string_view>
 
+#include <d2d1.h>
+
 module Spiky;
 
 import System.Monitor;
@@ -27,13 +29,18 @@ namespace Spiky
 
 		Library.MonitorProvider = std::make_shared<MonitorProviderCache>(std::make_shared<Win32MonitorProvider>());
 
+
 		Startup::AppStartup startup;
 		startup.AddStartupTask(Library.LoggingChannel->GetStartupTask());
 		startup.AddStartupTask(std::make_shared<ConfigureHeapStartupTask>());
 		startup.AddStartupTask(std::make_shared<InitCOMStartupTask>());
 		startup.AddStartupTask(std::make_shared<ConfigureDPIStartupTask>());
 		startup.AddStartupTask(std::make_shared<WindowStartupTask>(Library.Window, Library.MonitorProvider));
-		
+
+		DeviceResourcesScaler scaler(&Library.DeviceResources);
+		startup.AddStartupTask(std::make_shared<ConfigureDeviceIndependentResourcesStartupTask>(&Library.IndependentResources));
+		startup.AddStartupTask(std::make_shared<ConfigureDeviceResourcesStartupTask>(&Library.DeviceResources, &Library.IndependentResources, &scaler, [] { return Library.Window.get(); }));
+
 		startup.Run([&]
 		{
 			Library.Window->SetVisible(true);
@@ -56,6 +63,11 @@ namespace Spiky
 							running = false;
 							return true;
 						},
+						[&scaler](const WindowEvent::Resized& resized)
+						{
+							scaler.Resize(resized.Width, resized.Height);
+							return true;
+						},
 						[](const auto&)
 						{
 							return true;
@@ -68,7 +80,10 @@ namespace Spiky
 					}
 				}
 
+				Library.DeviceResources.D2DContext->BeginDraw();
 				Library.Sketch->Draw();
+				Library.DeviceResources.D2DContext->EndDraw();
+				Library.DeviceResources.DXGISwapChain->Present(1, 0);
 			}
 
 			Library.Sketch->Destroy();
@@ -120,4 +135,19 @@ namespace Spiky
 	Math::Int2 GetWindowPosition() { return Library.Window->GetPosition(); }
 	void SetWindowTitle(const std::string_view title) { Library.Window->SetTitle(title); }
 	std::string GetWindowTitle() { return Library.Window->GetTitle(); }
+}
+
+/// <summary>
+/// Graphics and rendering
+/// </summary>
+namespace Spiky
+{
+	void Background(const int32_t red, const int32_t green, const int32_t blue, const int32_t alpha)
+	{
+		const float r = static_cast<float>(red) / 255.0f;
+		const float g = static_cast<float>(green) / 255.0f;
+		const float b = static_cast<float>(blue) / 255.0f;
+		const float a = static_cast<float>(alpha) / 255.0f;
+		Library.DeviceResources.D2DContext->Clear(D2D1::ColorF(r, g, b, a));
+	}
 }
